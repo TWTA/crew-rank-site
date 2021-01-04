@@ -159,6 +159,19 @@ function SortingTableComponent() {
         }]
     console.log(JSON.stringify(data));
 
+    const fetch = require('node-fetch');
+    const https = require("https");
+    const httpsAgent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+    fetch('https://api.crew-rank.g1a.io:8443/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({query: "query { crewRank { ladder { name overall { games { won total }} imposter { games { won }} crewmate { games { won }}}}}"}),
+      agent: httpsAgent,
+    })
+      .then(res => res.json())
+      .then(data => console.log({ data }));
 
     return (
         <Table columns={columns} data={data} />
