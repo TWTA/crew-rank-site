@@ -8,34 +8,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function SortingTableComponent() {
     const columns = [
         {
-            Header: 'CrewRank Leader Board',
-            columns: [
-                {
-                    name: 'Name',
-                    selector: 'name',
-                    sortable: true,
-                },
-                {
-                    name: 'Overall Ratio',
-                    selector: 'overall',
-                    sortable: true,
-                },
-                {
-                    name: 'Imposter Ratio',
-                    selector: 'imposter',
-                    sortable: true,
-                },
-                {
-                    name: 'Crewmate Ratio',
-                    selector: 'crewmate',
-                    sortable: true,
-                },
-                {
-                    name: 'Ranked Games',
-                    selector: 'games',
-                    sortable: true,
-                },
-            ],
+            name: 'Name',
+            selector: 'name',
+            sortable: true,
+        },
+        {
+            name: 'Overall Ratio',
+            selector: 'overall',
+            sortable: true,
+        },
+        {
+            name: 'Imposter Ratio',
+            selector: 'imposter',
+            sortable: true,
+        },
+        {
+            name: 'Crewmate Ratio',
+            selector: 'crewmate',
+            sortable: true,
+        },
+        {
+            name: 'Ranked Games',
+            selector: 'games',
+            sortable: true,
         }]
 
     const data = [
