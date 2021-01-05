@@ -110,7 +110,9 @@ function SortingTableComponent() {
         // instead of setTimeout this is where you would handle your API call.
         setTimeout(() => {
             console.log('Timeout expired');
-            setData(orderBy(items, column.selector, sortDirection));
+            const sorted = orderBy(items, column.selector, sortDirection)
+            console.log('SORTED: ' + JSON.stringify(sorted));
+            setData(sorted);
             setLoading(false);
         }, 100);
     };
