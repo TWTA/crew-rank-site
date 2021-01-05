@@ -1,164 +1,123 @@
 // src/components/sorting.table.js
-import React from "react";
+import React, { useState } from 'react';
 
-import { useTable, useSortBy } from 'react-table'
+import { orderBy } from 'lodash';
+import DataTable from 'react-data-table-component';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Table({ columns, data }) {
-    // Use the state and functions returned from useTable to build your UI
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-    } = useTable(
-        {
-            columns,
-            data,
-        },
-        useSortBy
-    )
-
-    // Render the UI for your table
-    return (
-        <div>
-            <table className="table" {...getTableProps()}>
-                <thead>
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
-                                // Add the sorting props to control sorting. For this example
-                                // we can add them into the header props
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                    {column.render('Header')}
-                                    {/* Add a sort direction indicator */}
-                                    <span>
-                                        {column.isSorted
-                                            ? column.isSortedDesc
-                                                ? ' 🔽'
-                                                : ' 🔼'
-                                            : ''}
-                                    </span>
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {rows.map(
-                        (row, i) => {
-                            prepareRow(row);
-                            return (
-                                <tr {...row.getRowProps()}>
-                                    {row.cells.map(cell => {
-                                        return (
-                                            <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                        )
-                                    })}
-                                </tr>
-                            )
-                        }
-                    )}
-                </tbody>
-            </table>
-            <br />
-            <div>Showing the first 20 results of {rows.length} rows</div>
-        </div >
-    )
-}
-
 function SortingTableComponent() {
-    const columns = React.useMemo(
-        () => [
-            {
-                Header: 'CrewRank Leader Board',
-                columns: [
-                    {
-                        Header: 'Name',
-                        accessor: 'name',
-                    },
-                    {
-                        Header: 'Overall Ratio',
-                        accessor: 'overall',
-                    },
-                    {
-                        Header: 'Imposter Ratio',
-                        accessor: 'imposter',
-                    },
-                    {
-                        Header: 'Crewmate Ratio',
-                        accessor: 'crewmate',
-                    },
-                    {
-                        Header: 'Ranked Games',
-                        accessor: 'games',
-                    },
-                ],
-            },
-        ],
-        []
-    )
+    const columns = [
+        {
+            name: 'Name',
+            selector: 'name',
+            sortable: true,
+        },
+        {
+            name: 'Overall Ratio',
+            selector: 'overall',
+            sortable: true,
+        },
+        {
+            name: 'Imposter Ratio',
+            selector: 'imposter',
+            sortable: true,
+        },
+        {
+            name: 'Crewmate Ratio',
+            selector: 'crewmate',
+            sortable: true,
+        },
+        {
+            name: 'Ranked Games',
+            selector: 'games',
+            sortable: true,
+        }]
 
     const data = [
         {
-            "name": "The Dead Body",
-            "overall": 0.5,
-            "imposter": 0.5,
-            "crewmate": 0.5,
-            "games": 75
+            id: 1,
+            name: "The Dead Body",
+            overall: 0.5,
+            imposter: 0.5,
+            crewmate: 0.5,
+            games: 75
         },
         {
-            "name": "Innocent Crewmate",
-            "overall": 0.5,
-            "imposter": 0.4,
-            "crewmate": 0.6,
-            "games": 15
+            id: 2,
+            name: "Innocent Crewmate",
+            overall: 0.5,
+            imposter: 0.4,
+            crewmate: 0.6,
+            games: 15
         },
         {
-            "name": "Pacifist",
-            "overall": 0.3,
-            "imposter": 0.1,
-            "crewmate": 0.5,
-            "games": 66
+            id: 3,
+            name: "Pacifist",
+            overall: 0.3,
+            imposter: 0.1,
+            crewmate: 0.5,
+            games: 66
         },
         {
-            "name": "Vent Runner",
-            "overall": 0.5,
-            "imposter": 0.9,
-            "crewmate": 0.1,
-            "games": 67
+            id: 4,
+            name: "Vent Runner",
+            overall: 0.5,
+            imposter: 0.9,
+            crewmate: 0.1,
+            games: 67
         },
         {
-            "name": "Fast Talk",
-            "overall": 0.6,
-            "imposter": 0.8,
-            "crewmate": 0.4,
-            "games": 23
+            id: 5,
+            name: "Fast Talk",
+            overall: 0.6,
+            imposter: 0.8,
+            crewmate: 0.4,
+            games: 23
         },
         {
-            "name": "Minding My Own Business",
-            "overall": 0.6,
-            "imposter": 0.8,
-            "crewmate": 0.4,
-            "games": 23
+            id: 6,
+            name: "Minding My Own Business",
+            overall: 0.6,
+            imposter: 0.8,
+            crewmate: 0.4,
+            games: 23
         },
         {
-            "name": "Saboteur",
-            "overall": 0.4,
-            "imposter": 0.7,
-            "crewmate": 0.1,
-            "games": 23
+            id: 7,
+            name: "Saboteur",
+            overall: 0.4,
+            imposter: 0.7,
+            crewmate: 0.1,
+            games: 23
         },
         {
-            "name": "Nobody Saw Me Do It",
-            "overall": 0.7,
-            "imposter": 0.8,
-            "crewmate": 0.6,
-            "games": 23
+            id: 8,
+            name: "Nobody Saw Me Do It",
+            overall: 0.7,
+            imposter: 0.8,
+            crewmate: 0.6,
+            games: 23
         }]
     console.log(JSON.stringify(data));
 
+    const [loading, setLoading] = useState(false);
+    const [items, setData] = useState(data);
+  
+    const handleSort = (column, sortDirection) => {
+        // simulate server sort
+        setLoading(true);
+
+        // instead of setTimeout this is where you would handle your API call.
+        setTimeout(() => {
+            console.log('Timeout expired');
+            const sorted = orderBy(items, column.selector, sortDirection)
+            console.log('SORTED: ' + JSON.stringify(sorted));
+            setData(sorted);
+            setLoading(false);
+        }, 100);
+    };
+/*
+    console.log('Fetch from api server');
     const fetch = require('node-fetch');
     const https = require("https");
     const httpsAgent = new https.Agent({
@@ -172,9 +131,18 @@ function SortingTableComponent() {
     })
       .then(res => res.json())
       .then(data => console.log({ data }));
-
+      
+    // TODO: restructure 'data' so that it matches the form
+    // needed by the table and then call "setData"
+*/
     return (
-        <Table columns={columns} data={data} />
+        <DataTable
+            title="Crew Rank Ladder" 
+            columns={columns} 
+            data={data} 
+            onSort={handleSort}
+            sortServer
+            progressPending={loading}        />
     )
 }
 
